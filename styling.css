@@ -1,34 +1,99 @@
-.header {
-    background-color: rgb(0, 169, 66);
+.header-container {
+    margin-top: 0px;
+    padding-top: 0px;
+    color: rgb(60, 179, 113);
     justify-content: space-between;
     display: flex;
-    font-family: 'Archivo Black', serif;
-    color: rgb(255, 255, 255);
     align-items: center;
     padding: 20px;
+    flex-wrap: wrpa;
 }
 
 .header .generous-rounds {
     font-size: 30px;
     white-space: nowrap;
+    font-family: 'Protest Strike', serif;
+}
+
+#about {
+    padding-top: 20px;
+    text-decoration: none;
+    margin-left: 30px;
+    gap: 20px;
+    color: rgb(0, 0, 0);
+    font-family: 'Afacad Flux', serif;
+    font-weight: 600px;
+}
+
+#charity {
+    text-decoration: none;
+    margin-left: 30px;
+    gap: 20px;
+    color: rgb(0, 0, 0);
+    font-family: 'Afacad Flux', serif;
+    font-weight: 600px;
+}
+
+#help {
+    text-decoration: none;
+    margin-left: 30px;
+    gap: 20px;
+    color: rgb(0, 0, 0);
+    font-family: 'Afacad Flux', serif;
+    font-weight: 600px;
 }
 
 .header .buttons {
-    font-size: 20px;
     display: flex;
-    gap: 10px;
+    gap: 30px
+}
+
+#log-in {
+    font-size: 15px;
+    background-color: rgb(60, 179, 113);
+    color: rgb(255, 255, 255);
+    border-radius: 12px;
+    border: 2px solid rgb(60, 179, 113);
+    padding: 5px 7px;
+    margin-right: 15px;
+}
+
+#sign-up {
+    font-size: 15px;
+    background-color: rgb(60, 179, 113);
+    color: rgb(255, 255, 255);
+    border-radius: 12px;
+    border: 2px solid rgb(60, 179, 113);
+    padding: 5px 7px;
 }
 
 .introduction {
-    background-color: rgb(0, 169, 66);
-    color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
     text-align: center;
     width: 100%;
     margin: 0 auto;
     font-size: 25px;
-    font-family: 'Archivo Black', serif;
+    font-family: 'Afacad Flux', serif;
+}
+
+.container {
+    text-align: center;
+}
+
+#donate {
+    font-size: 15px;
+    background-color: rgb(60, 179, 113);
+    color: rgb(255, 255, 255);
+    border-radius: 12px;
+    border: 2px solid rgb(60, 179, 113);
+    padding: 5px 7px;
+}
+
+.banner {
+    position: fixed;
+    background-color: rgb(60, 179, 113);
 }
 
 .body {
-    background-color: rgb(255, 231, 159);
+    background-color: rgb(255, 255, 255);
 }
