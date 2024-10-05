@@ -1,6 +1,7 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
     <head>
+        <link href="styling.css" rel="stylesheet">
         <link href="./styling.css" rel="stylesheet">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -9,8 +10,8 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Protest+Strike&display=swap" rel="stylesheet">
     </head>
+    <body>
 
-    <body class="body">
         <div class="header-container">
             <header class="header">
                 <div><a href="website.html" class="generous-rounds">Generous Rounds</a></div>
@@ -20,33 +21,32 @@
                 <a href="charity.html" id="charity">Charities</a>
                 <a href="help.html" id="help">Help Center</a>
             </nav>
-            <div class="buttons">
-                <a href="log.html"><button id="log-in"><b>Log In</b></button></a>
-                <a href="sign.html"><button id="sign-up"><b>Sign Up</b></button></a>
-            </div>
         </div>
 
-        <section class="introduction">
-            <p>Empower Your Purchases—Round Up for Good!</p>
-        </section>
+        <div class="user-container">
+            <h2 class="title">Log In</h2>
+            <form action="/log-in" method="POST">   
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+    
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+    
+                <button type="log-in">Log In</button>
 
-        <div class="container">
-              <a href="log.html"><button id="donate"><b>Donate Now</b></button></a>
+                <div class="terms">
+                    <p>Don't have an account? <a href="sign.html">Sign Up!</a>.</p>
+                </div>
+            </form>
         </div>
 
-        <div class="slideshow-container">
-            <div class="mySlides fade">
-                <img src="amf.png" style="width:90%">
-            </div>
-            <div class="mySlides fade">
-                <img src="LifeWater-Canada-Logo_Colour.png" style="width:90%">
-            </div>
-            <div class="mySlides fade">
-                <img src="foodgrainsbank_logo_black_notag_0.png" style="width:90%">
-            </div>
-            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        <div class="header-card">
+            <h1>Place Holder</h1>
         </div>
-        <script src="script.js"></script>
+    
     </body>
 </html>
