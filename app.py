@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, jsonify, url_for, session, check_password_hash, flash
 from pymongo import MongoClient
+from AIfunction import generateTags
 import certifi
+
 
 app = Flask(__name__)
 
@@ -13,6 +15,9 @@ client = MongoClient(MONGO_URI, tlsCAFile=certifi.where())
 db = client.get_database('Charities')
 charity_collection = db['Charity']
 users_collection = db['Users']
+
+
+
 
 # Functions for the website
 def get_accountId_from_email(email):
@@ -38,6 +43,15 @@ def index():
 @app.route('/search')
 def search():
     return render_template('search.html')
+
+@app.route('/searchOnClick', methods=['POST', 'GET'])
+def searchOnClick():
+    if request.method == 'POST':
+        prompt = request.form['searchPrompt']
+        charityList = getTagsList(prompt)
+        return render_template('list.html', charityList = charityList)
+    else:
+        return render_template('search.html')
 
 #login page
 @app.route('/logbutton', methods=['POST', 'GET'])
@@ -69,15 +83,28 @@ def signup():
         user = {
             "name": name,
             "email": email,
-            "password": password
+            "password": password,
+            "amount": 0
         }
-
         try:
             users_collection.insert_one(user)
             return redirect(url_for('search'))
         except:
             return "An error has occurred. Please try again."
         
+
+
+def getTagsList(prompt):
+    tags = generateTags(prompt)
+    if tags[0] == "N/A":
+        result = charity_collection.find({}).limit(10)
+        return result
+    if len(tags) > 1:
+        print(f"{tags[0]}{tags[1]}")
+        result = list(charity_collection.find({"Tag": tags[0]})) + list(charity_collection.find({"Tag": tags[1]}))
+        return result
+    else:
+        return charity_collection.find({"Tag": tags.pop()})
 
 if __name__ == '__main__':
     app.run(debug=True)
