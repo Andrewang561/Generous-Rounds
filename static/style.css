@@ -174,7 +174,26 @@
 #form {
     text-align: center;
     font-family: 'Afacad Flux', serif;
-    width: 100px;
+    width: 100%;
+    border-radius: 20px;
+    background-color: rgb(60, 179, 113);
+    margin-top: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 30px;
+    height: 50px; 
+}
+
+#searchPrompt {
+    width: 500px;
+    border-radius:20px;
+}
+
+#searchButton {
+    background-color: white;
+    color: rgb(60, 179, 113);
+    border-radius: 20px;
+    border: 2px solid rgb(60, 179, 113);
 }
 
 .container {
