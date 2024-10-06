@@ -19,7 +19,8 @@
         {% for charity in charityList %}
 
         <p>{{charity.name}} - Tags: {{charity.Tag}}
-            <form method="POST" action="/submit/{{ charity.id }}">
+            <form method="POST" action="/submitCharity">
+                <input type="hidden" name="charity_name" value="{{ charity.name }}">
                 <button type="submit" id="chooseCharity">Submit</button>
             </form>
         </p>
