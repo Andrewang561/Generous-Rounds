@@ -13,7 +13,7 @@
     <title class="charityTitle">Charity List</title>
 </head>
 <body>
-    <section class="charityList">
+    <!-- <section class="charityList">
     <h1><b>Charity List</b></h1>
     <ul>
         {% for charity in charityList %}
@@ -26,6 +26,26 @@
 
         {% endfor %}
     </ul>
-    </section>
+    </section> -->
+    <h1>Recommended Charities</h1>
+    <div class="card-container">
+        {% for charity in charityList %}
+        <div class="card">
+            <img src="{{charity['imagesrc']}}" alt="{{charity['name']}}" class="card-img">
+            <div class="card-content">
+                <h3>{{ charity['name'] }}</h3>
+                <p><strong>Website:</strong> <a href="http://{{ charity['website'] }}" target="_blank">{{ charity['website'] }}</a></p>
+                <p><strong>Phone:</strong> {{ charity['telephone'] }}</p>
+                <p><strong>Charitable Reg #:</strong> {{ charity['CharitableReg'] }}</p>
+                <p><strong>Funding Reserves (2023):</strong> ${{ charity['FundingReserves2023'] }}</p>
+                <p><strong>Tag:</strong> {{ charity['Tag'] }}</p>
+                <form method="POST" action="/submit/{{ charity.id }}">
+                    <button type="submit" id="chooseCharity">Submit</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
 </body>
 </html>

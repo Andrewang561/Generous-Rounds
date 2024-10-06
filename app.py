@@ -21,9 +21,8 @@ charity_collection = db['Charity']
 users_collection = db['Users']
 db2 = client.get_database('fakeBank')
 bank1_collection = db2['Bank1']
-app.secret_key = 'super secret key'
 
-
+app.secret_key = "super secret key"
 # Functions for the website
 def get_accountId_from_email(email):
     user_data = users_collection.find_one({'email': email})
@@ -93,6 +92,7 @@ def signup():
         }
         try:
             users_collection.insert_one(user)
+            session['sessionEmail'] = email
             return redirect(url_for('search'))
         except:
             return "An error has occurred. Please try again."
@@ -134,14 +134,14 @@ def donationAmount():
 def getTagsList(prompt):
     tags = generateTags(prompt)
     if tags[0] == "N/A":
-        result = charity_collection.find({}).limit(10)
+        result = list(charity_collection.find({}).limit(10))
         return result
     if len(tags) > 1:
         print(f"{tags[0]}{tags[1]}")
         result = list(charity_collection.find({"Tag": tags[0]})) + list(charity_collection.find({"Tag": tags[1]}))
         return result
     else:
-        return charity_collection.find({"Tag": tags.pop()})
+        return list(charity_collection.find({"Tag": tags.pop()}))
 
 if __name__ == '__main__':
     app.run(debug=True)
