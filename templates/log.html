@@ -23,6 +23,17 @@
             </nav>
         </div>
 
+        <!-- Display Flash Messages if error for login-->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        
         <div class="user-container">
             <h2 class="title">Log In</h2>
             <form action="/log-in" method="POST">   
