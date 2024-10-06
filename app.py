@@ -94,6 +94,7 @@ def signup():
         }
         try:
             users_collection.insert_one(user)
+            session['sessionEmail'] = email
             return redirect(url_for('search'))
         except:
             return "An error has occurred. Please try again."
