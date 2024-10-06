@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Protest+Strike&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Thank You for Your Donation!</h1>
+            </div>
+            <p>You have successfully donated to <strong>{{ charity_name }}</strong>.</p>
+            <p>Donation Amount:</p>
+            <p class="amount">{{ donation_amount }}</p>
+            <div class="footer">
+                <a href="/" class="button">Back to Home</a>
+            </div>
+        </div>
+    </body>
+</html>
