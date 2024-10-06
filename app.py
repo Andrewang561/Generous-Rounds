@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect
 from pymongo import MongoClient
-from wrkzeug.security import generate_password_hash
 
 app = Flask(__name__)
 
@@ -18,12 +17,10 @@ def signup():
     email = request.form['email']
     password = request.form['password']
 
-    hashed_password = generate_password_hash(password, method='sha256')
-
     user = {
         "name": name,
         "email": email,
-        "password": hashed_password
+        "password": password
     }
 
     try:
