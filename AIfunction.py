@@ -35,7 +35,14 @@ def funnel_response(prompt):
 
 def main():
     prompt = input("Enter a prompt: ")
-    print(funnel_response(prompt))
+    vr = funnel_response(prompt)
+    
+    vr.split(", ") # -> ["Animal Welfare", "Environment"]
+
+    print(vr)
+
+    # send vr back to frontend
+    # frontend will filter and display the tags in a list
 
 if __name__ == "__main__":
     main()
