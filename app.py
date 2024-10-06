@@ -21,6 +21,7 @@ charity_collection = db['Charity']
 users_collection = db['Users']
 db2 = client.get_database('fakeBank')
 bank1_collection = db2['Bank1']
+app.secret_key = 'super secret key'
 
 
 # Functions for the website
@@ -92,7 +93,6 @@ def signup():
         }
         try:
             users_collection.insert_one(user)
-            session['sessionEmail'] = email
             return redirect(url_for('search'))
         except:
             return "An error has occurred. Please try again."
