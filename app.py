@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, jsonify, url_for
+from flask import Flask, render_template, request, redirect, jsonify, url_for, session, check_password_hash, flash
 from pymongo import MongoClient
 import certifi
 
@@ -14,6 +14,17 @@ db = client.get_database('Charities')
 charity_collection = db['Charity']
 users_collection = db['Users']
 
+# Functions for the website
+def get_accountId_from_email(email):
+    user_data = users_collection.find_one({'email': email})
+    return user_data.get('accountId') if user_data else None
+
+def get_amount_from_email(email):
+    user_data = users_collection.find_one({'email': email})
+    return user_data.get('amount') if user_data else None
+
+
+#Routes
 @app.route('/', methods=['POST', 'GET'])
 def index():
     return render_template('website.html')
@@ -28,8 +39,21 @@ def index():
 def search():
     return render_template('search.html')
 
-@app.route('/logbutton')
+#login page
+@app.route('/logbutton', methods=['POST', 'GET'])
 def logbutton():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+
+        user = users_collection.find_one({"email": email})
+
+        if user and check_password_hash(user["password"], password):
+            session['sessionEmail'] = email
+            return redirect(url_for('search')) # Redirect to the search page after successful login
+        else:
+            flash('Please check your login details and try again.')
+
     return render_template('log.html')
 
 @app.route('/signbutton')
@@ -53,6 +77,7 @@ def signup():
             return redirect(url_for('search'))
         except:
             return "An error has occurred. Please try again."
+        
 
 if __name__ == '__main__':
     app.run(debug=True)
