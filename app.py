@@ -1,10 +1,13 @@
 from flask import Flask, render_template, request, redirect, jsonify, url_for, session, flash
 from pymongo import MongoClient
 from AIfunction import generateTags
+from flask_bcrypt import Bcrypt
 import certifi
 
 
 app = Flask(__name__)
+bcrypt = Bcrypt(app)
+
 
 # MongoDB connection string
 # Ensure that you replace <username>, <password>, and <dbname> with your actual values
@@ -76,10 +79,13 @@ def signup():
         name = request.form['name']
         email = request.form['email']
         password = request.form['password']
+
+        hashpassword = bcrypt.generate_password_hash(password)
+
         user = {
             "name": name,
             "email": email,
-            "password": password,
+            "password": hashpassword,
             "amount": 0
         }
         try:
