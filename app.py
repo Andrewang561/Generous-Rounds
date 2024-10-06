@@ -94,6 +94,7 @@ def signup():
         }
         try:
             users_collection.insert_one(user)
+            print("pass!!!!")
             session['sessionEmail'] = email
             return redirect(url_for('search'))
         except:
