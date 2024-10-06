@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, jsonify, url_for, session, check_password_hash, flash
+from flask import Flask, render_template, request, redirect, jsonify, url_for, session, flash
 from pymongo import MongoClient
 from AIfunction import generateTags
 import certifi
@@ -15,8 +15,7 @@ client = MongoClient(MONGO_URI, tlsCAFile=certifi.where())
 db = client.get_database('Charities')
 charity_collection = db['Charity']
 users_collection = db['Users']
-
-
+app.secret_key = "super secret key"
 
 
 # Functions for the website
@@ -24,14 +23,11 @@ def get_accountId_from_email(email):
     user_data = users_collection.find_one({'email': email})
     return user_data.get('accountId') if user_data else None
 
-def get_amount_from_email(email):
-    user_data = users_collection.find_one({'email': email})
-    return user_data.get('amount') if user_data else None
-
 
 #Routes
 @app.route('/', methods=['POST', 'GET'])
 def index():
+    session.pop('sessionEmail', None)
     return render_template('website.html')
     # charities_data = list(charity_collection.find())  # Fetch all documents from the collection
     # for charity in charities_data:
@@ -62,7 +58,7 @@ def logbutton():
 
         user = users_collection.find_one({"email": email})
 
-        if user and check_password_hash(user["password"], password):
+        if user and user['password'] == password:
             session['sessionEmail'] = email
             return redirect(url_for('search')) # Redirect to the search page after successful login
         else:
@@ -91,8 +87,17 @@ def signup():
             return redirect(url_for('search'))
         except:
             return "An error has occurred. Please try again."
-        
 
+
+@app.route('/amountDisplay', methods=['POST', 'GET'])
+def amountDisplay():
+    email = session['sessionEmail'] 
+    user_data = users_collection.find_one({'email': email})
+    _amount = user_data.get('amount')
+    charityName = user_data.get('charity_name')
+    _charity = charity_collection.find_one({'_id': charityName})
+
+    return render_template('amountDisplay.html', donation_amount = _amount , charity_name = _charity)
 
 def getTagsList(prompt):
     tags = generateTags(prompt)
