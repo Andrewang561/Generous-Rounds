@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Protest+Strike&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="header-container">
+            <header class="website-header">
+                <div><a href="website.html" class="generous-rounds">Generous Rounds</a></div>
+            </header>
+            <nav class="links">
+                <a href="about.html" id="about">About Us</a>
+                <a href="charity.html" id="charity">Charities</a>
+                <a href="help.html" id="help">Help Center</a>
+            </nav>
+            <div class="buttons">
+                <form action="{{url_for('logbutton')}}">
+                    <button id="log-in" type="submit"><b>Log Out</b></button>
+                </form>
+                
+                <form action="{{url_for('signbutton')}}">
+                    <button id="sign-up" action="/submit" ><b>Sign Up</b></button>
+                </form>
+            </div>
+        </div>
+
+        <form id="form" action="/bankOnClick" method="POST">
+            <input type="search" id="searchPrompt" name="searchPrompt"
+            placeholder="bank card number goes here">
+            <button id="searchButton" type="submit"><b>Search</b></button>
+        </form>
+
+        <div class="slideshow-container">
+            <div class="mySlides fade">
+                <img src="{{ url_for('static', filename='images/amf.png') }}" style="width:90%">
+            </div>
+            <div class="mySlides fade">
+                <img src="{{ url_for('static', filename='images/LifeWater-Canada-Logo_Colour.png') }}" style="width:90%">
+            </div>
+            <div class="mySlides fade">
+                <img src="{{ url_for('static', filename='images/foodgrainsbank_logo_black_notag_0.png')}}" style="width:90%">
+            </div>
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        </div>
+        <script src="{{ url_for('static', filename='script.js')}}"></script>
+    </body>
+</html>

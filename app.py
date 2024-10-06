@@ -11,7 +11,6 @@ bcrypt = Bcrypt(app)
 
 
 # MongoDB connection string
-# Ensure that you replace <username>, <password>, and <dbname> with your actual values
 MONGO_URI = 'mongodb+srv://jadlu150:V4ReGTptWi8mfWHw@charities.lmdjd.mongodb.net/?retryWrites=true&w=majority&appName=Charities'
 
 # Connect to MongoDB
@@ -52,6 +51,17 @@ def searchOnClick():
         return render_template('list.html', charityList = charityList)
     else:
         return render_template('search.html')
+    
+@app.route('/bank')
+def bank():
+    return render_template('bank.html')
+
+@app.route('/bankOnClick', methods=['POST', 'GET'])
+def bankOnClick():
+    if request.method == 'POST':
+        prompt = request.form['searchPrompt']
+        users_collection.update_one({"email": session['sessionEmail']}, {"$set": {"accountId": prompt}})
+    return render_template('bank.html')
 
 @app.route('/submitCharity', methods=['POST'])
 def submitCharity():
