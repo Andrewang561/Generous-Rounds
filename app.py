@@ -3,15 +3,18 @@ from pymongo import MongoClient
 from AIfunction import generateTags
 from flask_bcrypt import Bcrypt
 import certifi
+from dotenv import load_dotenv
+import os
 
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 
+load_dotenv()
 
 # MongoDB connection string
 # Ensure that you replace <username>, <password>, and <dbname> with your actual values
-MONGO_URI = 'mongodb+srv://jadlu150:V4ReGTptWi8mfWHw@charities.lmdjd.mongodb.net/?retryWrites=true&w=majority&appName=Charities'
+MONGO_URI = os.getenv("MONGO_URI")
 
 # Connect to MongoDB
 client = MongoClient(MONGO_URI, tlsCAFile=certifi.where())
