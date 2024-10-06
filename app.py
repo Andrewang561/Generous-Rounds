@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, jsonify, url_for, session, check_password_hash, flash
+from flask import Flask, render_template, request, redirect, jsonify, url_for, session, flash
 from pymongo import MongoClient
 from AIfunction import generateTags
 from flask_bcrypt import Bcrypt
@@ -62,12 +62,12 @@ def logbutton():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-
+        print(password)
         user = users_collection.find_one({"email": email})
 
-        if user and check_password_hash(user["password"], password):
+        if user and bcrypt.check_password_hash(user['password'], password):
             session['sessionEmail'] = email
-            return redirect(url_for('search')) # Redirect to the search page after successful login
+            return render_template('search.html') # Redirect to the search page after successful login
         else:
             flash('Please check your login details and try again.')
 
@@ -90,7 +90,8 @@ def signup():
             "name": name,
             "email": email,
             "password": hashpassword,
-            "amount": 0
+            "amount": 0,
+            "charity_name": {}
         }
         try:
             users_collection.insert_one(user)
