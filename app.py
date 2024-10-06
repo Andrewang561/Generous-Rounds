@@ -5,7 +5,7 @@ from wrkzeug.security import generate_password_hash
 app = Flask(__name__)
 
 client = MongoClient("mongodb+srv://jadlu150:V4ReGTptWi8mfWHw@charities.lmdjd.mongodb.net/")
-db = client.charities.users
+db = client.charities_users
 users_collection = db.users
 
 @app.route('/')
