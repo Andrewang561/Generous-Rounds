@@ -1,18 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Protest+Strike&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Charity List</title>
+    <title class="charityTitle">Charity List</title>
 </head>
 <body>
-    <h1>Charities List</h1>
+    <section class="charityList">
+    <h1><b>Charity List</b></h1>
     <ul>
         {% for charity in charityList %}
 
-        <li>{{charity.name}} - Tags: {{charity.Tag}}</li>
+        <p>{{charity.name}} - Tags: {{charity.Tag}}
+            <form method="POST" action="/submit/{{ charity.id }}">
+                <button type="submit" id="chooseCharity">Submit</button>
+            </form>
+        </p>
 
         {% endfor %}
     </ul>
+    </section>
 </body>
 </html>

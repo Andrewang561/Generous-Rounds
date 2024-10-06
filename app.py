@@ -3,25 +3,24 @@ from pymongo import MongoClient
 from AIfunction import generateTags
 from flask_bcrypt import Bcrypt
 import certifi
-from dotenv import load_dotenv
-import os
+import math
 
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 
-load_dotenv()
 
 # MongoDB connection string
 # Ensure that you replace <username>, <password>, and <dbname> with your actual values
-MONGO_URI = os.getenv("MONGO_URI")
+MONGO_URI = 'mongodb+srv://jadlu150:V4ReGTptWi8mfWHw@charities.lmdjd.mongodb.net/?retryWrites=true&w=majority&appName=Charities'
 
 # Connect to MongoDB
 client = MongoClient(MONGO_URI, tlsCAFile=certifi.where())
 db = client.get_database('Charities')
 charity_collection = db['Charity']
 users_collection = db['Users']
-app.secret_key = "super secret key"
+db2 = client.get_database('fakeBank')
+bank1_collection = db2['Bank1']
 
 
 # Functions for the website
@@ -29,11 +28,9 @@ def get_accountId_from_email(email):
     user_data = users_collection.find_one({'email': email})
     return user_data.get('accountId') if user_data else None
 
-
 #Routes
 @app.route('/', methods=['POST', 'GET'])
 def index():
-    session.pop('sessionEmail', None)
     return render_template('website.html')
     # charities_data = list(charity_collection.find())  # Fetch all documents from the collection
     # for charity in charities_data:
@@ -90,26 +87,49 @@ def signup():
             "email": email,
             "password": hashpassword,
             "amount": 0,
-            "charity_name": {}
+            "charity_name": {},
+            "accountId": ""
         }
         try:
             users_collection.insert_one(user)
-            print("pass!!!!")
             session['sessionEmail'] = email
             return redirect(url_for('search'))
         except:
             return "An error has occurred. Please try again."
 
+# function to help amountDisplay update amount
+def check_new_transactions(accountID):
+    new_transactions = bank1_collection.find({"accountId": accountID, "checked": 0})
+
+    total_roundup = 0
+    for transaction in new_transactions:
+        amount = transaction['amount']
+
+        rounded_amount = round(amount)
+        roundup_value = rounded_amount - amount
+        total_roundup += roundup_value
+        bank1_collection.update_one({"_id": transaction['_id']}, {"$set": {"checked": 1}})
+    
+    return total_roundup
+
 
 @app.route('/amountDisplay', methods=['POST', 'GET'])
-def amountDisplay():
-    email = session['sessionEmail'] 
-    user_data = users_collection.find_one({'email': email})
-    _amount = user_data.get('amount')
-    charityName = user_data.get('charity_name')
-    _charity = charity_collection.find_one({'_id': charityName})
+def donationAmount():
+    email = session['sessionEmail']
+    user = users_collection.find_one({"email": email})
 
-    return render_template('amountDisplay.html', donation_amount = _amount , charity_name = _charity)
+    if request.method == 'POST':
+        new_amount = check_new_transactions(user['accountId']) + user['amount']
+
+        users_collection.update_one({"email": email}, {"$set": {"amount": new_amount}})
+
+    user = users_collection.find_one({"email": email})
+    charity = charity_collection.find_one({"Name": user['charity_name']})
+    _charityName = charity['Name']
+
+    return render_template('amountDisplay.html', charity_name = _charityName, donation_amount = user['amount'])
+
+
 
 def getTagsList(prompt):
     tags = generateTags(prompt)

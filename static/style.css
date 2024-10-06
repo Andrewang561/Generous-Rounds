@@ -174,7 +174,26 @@
 #form {
     text-align: center;
     font-family: 'Afacad Flux', serif;
-    width: 100px;
+    width: 100%;
+    border-radius: 20px;
+    background-color: rgb(60, 179, 113);
+    margin-top: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 30px;
+    height: 50px; 
+}
+
+#searchPrompt {
+    width: 500px;
+    border-radius:20px;
+}
+
+#searchButton {
+    background-color: white;
+    color: rgb(60, 179, 113);
+    border-radius: 20px;
+    border: 2px solid rgb(60, 179, 113);
 }
 
 .container {
@@ -195,4 +214,27 @@
     border-radius: 12px;
     border: 2px solid rgb(60, 179, 113);
     padding: 5px 7px;
+}
+
+.charityTitle {
+    text-align: center;
+    font-family: 'Afacad Flux', serif;
+    color: rgb(60, 179, 113);
+    font-size: 200px
+}
+
+.charityList {
+    text-align: center;
+    font-family: 'Afacad Flux', serif;
+    font-size: 50px;
+    color: rgb(60, 179, 113);
+}
+
+#chooseCharity {
+    font-size: 30px;
+    background-color: rgb(60, 179, 113);
+    color: white;
+    border-radius: 20px;
+    border: 2px solid rgb(60, 179, 113);
+    padding: 10px;
 }
