@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <link href="./styling.css" rel="stylesheet">
+        <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Protest+Strike&display=swap" rel="stylesheet">
@@ -21,8 +21,8 @@
                 <a href="help.html" id="help">Help Center</a>
             </nav>
             <div class="buttons">
-                <a href="log.html"><button id="log-in"><b>Log In</b></button></a>
-                <a href="sign.html"><button id="sign-up"><b>Sign Up</b></button></a>
+                <button id="log-in" action="/logbutton" method="POST"><b>Log In</b></button>
+                <button id="sign-up" action="/signbutton" method="POST"><b>Sign Up</b></button>
             </div>
         </div>
 
@@ -36,18 +36,18 @@
 
         <div class="slideshow-container">
             <div class="mySlides fade">
-                <img src="amf.png" style="width:90%">
+                <img src="{{ url_for('static', filename='images/amf.png') }}" style="width:90%">
             </div>
             <div class="mySlides fade">
-                <img src="LifeWater-Canada-Logo_Colour.png" style="width:90%">
+                <img src="{{ url_for('static', filename='images/LifeWater-Canada-Logo_Colour.png') }}" style="width:90%">
             </div>
             <div class="mySlides fade">
-                <img src="foodgrainsbank_logo_black_notag_0.png" style="width:90%">
+                <img src="{{ url_for('static', filename='images/foodgrainsbank_logo_black_notag_0.png')}}" style="width:90%">
             </div>
             <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
             <a class="next" onclick="plusSlides(1)">&#10095;</a>
         </div>
-        <script src="script.js"></script>
+        <script src="{{ url_for('static', filename='script.js')}}"></script>
 
         <div class="text-section">
             <h2 class="section-title">About Us</h2>
