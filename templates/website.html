@@ -21,8 +21,13 @@
                 <a href="help.html" id="help">Help Center</a>
             </nav>
             <div class="buttons">
-                <button id="log-in" action="/logbutton" method="POST"><b>Log In</b></button>
-                <button id="sign-up" action="/signbutton" method="POST"><b>Sign Up</b></button>
+                <form action="{{url_for('logbutton')}}">
+                    <button id="log-in" type="submit"><b>Log In</b></button>
+                </form>
+                
+                <form action="{{url_for('signbutton')}}">
+                    <button id="sign-up" action="/submit" ><b>Sign Up</b></button>
+                </form>
             </div>
         </div>
 

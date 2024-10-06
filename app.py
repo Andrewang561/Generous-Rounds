@@ -12,7 +12,7 @@ MONGO_URI = 'mongodb+srv://jadlu150:V4ReGTptWi8mfWHw@charities.lmdjd.mongodb.net
 client = MongoClient(MONGO_URI, tlsCAFile=certifi.where())
 db = client.get_database('Charities')
 charity_collection = db['Charity']
-users_collection = db['user']
+users_collection = db['Users']
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
@@ -28,21 +28,13 @@ def index():
 def search():
     return render_template('search.html')
 
-@app.route('/logbuttonlink')
-def logbuttonlink():
+@app.route('/logbutton')
+def logbutton():
     return render_template('log.html')
 
-@app.route('/logbutton', methods=['POST'])
-def logbutton():
-    return redirect(url_for('logbuttonlink'))
-
-@app.route('/signbuttonlink')
-def signbuttonlink():
-    return render_template('sign.html')
-
-@app.route('/signbutton', methods=['POST'])
+@app.route('/signbutton')
 def signbutton():
-    return redirect(url_for('signbuttonlink'))
+    return render_template('sign.html')
 
 @app.route('/signup', methods=['POST'])
 def signup():
