@@ -53,6 +53,15 @@ def searchOnClick():
     else:
         return render_template('search.html')
 
+@app.route('/submitCharity', methods=['POST'])
+def submitCharity():
+    email = session['sessionEmail']
+
+    charity_name = request.form.get('charity_name')
+
+    users_collection.update_one({"email": email}, {"$set": {"charity_name": charity_name}})
+    return redirect(url_for('donationAmount'))
+
 #login page
 @app.route('/logbutton', methods=['POST', 'GET'])
 def logbutton():
@@ -124,10 +133,10 @@ def donationAmount():
         users_collection.update_one({"email": email}, {"$set": {"amount": new_amount}})
 
     user = users_collection.find_one({"email": email})
-    charity = charity_collection.find_one({"Name": user['charity_name']})
-    _charityName = charity['Name']
+    # charity = charity_collection.find_one({"name": user['charity_name']})
 
-    return render_template('amountDisplay.html', charity_name = _charityName, donation_amount = user['amount'])
+
+    return render_template('amountDisplay.html', charity_name = user['charity_name'], donation_amount = user['amount'])
 
 
 
