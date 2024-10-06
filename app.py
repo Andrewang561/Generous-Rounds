@@ -3,6 +3,7 @@ from pymongo import MongoClient
 from AIfunction import generateTags
 from flask_bcrypt import Bcrypt
 import certifi
+import math
 
 
 app = Flask(__name__)
@@ -18,6 +19,8 @@ client = MongoClient(MONGO_URI, tlsCAFile=certifi.where())
 db = client.get_database('Charities')
 charity_collection = db['Charity']
 users_collection = db['Users']
+db2 = client.get_database('fakeBank')
+bank1_collection = db2['Bank1']
 
 
 # Functions for the website
@@ -84,20 +87,42 @@ def signup():
             "email": email,
             "password": hashpassword,
             "amount": 0,
-            "charity_name": {}
+            "charity_name": {},
+            "accountId": ""
         }
         try:
             users_collection.insert_one(user)
             return redirect(url_for('search'))
         except:
             return "An error has occurred. Please try again."
-        
+
+# function to help amountDisplay update amount
+def check_new_transactions(accountID):
+    new_transactions = bank1_collection.find({"accountId": accountID, "checked": 0})
+
+    total_roundup = 0
+    for transaction in new_transactions:
+        amount = transaction['amount']
+
+        rounded_amount = round(amount)
+        roundup_value = rounded_amount - amount
+        total_roundup += roundup_value
+        bank1_collection.update_one({"_id": transaction['_id']}, {"$set": {"checked": 1}})
+    
+    return total_roundup
+
 
 @app.route('/amountDisplay', methods=['POST', 'GET'])
 def donationAmount():
     email = session['sessionEmail']
     user = users_collection.find_one({"email": email})
 
+    if request.method == 'POST':
+        new_amount = check_new_transactions(user['accountId']) + user['amount']
+
+        users_collection.update_one({"email": email}, {"$set": {"amount": new_amount}})
+
+    user = users_collection.find_one({"email": email})
     charity = charity_collection.find_one({"Name": user['charity_name']})
     _charityName = charity['Name']
 
