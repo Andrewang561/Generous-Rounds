@@ -107,14 +107,24 @@
     background-color: rgb(255, 255, 255);
 }
 
+
 .user-container {
     margin-top: 80px;
     text-align: center;
-    border: 2px solid black;
+    border: 2px solid rgb(60, 179, 113);
     margin-left: 100px;
     margin-right: 100px;
     border-radius: 20px;
     padding-bottom: 100px;
+    font-family: 'Afacad Flux', serif;
+}
+
+#password {
+    margin-right: 25px;
+}
+
+#name {
+    margin-right: 8px;
 }
 
 .form-group {
@@ -152,4 +162,11 @@
 .next {
     right: 0;
     border-radius: 3px 0 0 3px;
+}
+
+.text-section {
+    text-align: center;
+    font-family: 'Afacad Flux', serif;
+    width: 70%;
+    margin: 0 auto;
 }
