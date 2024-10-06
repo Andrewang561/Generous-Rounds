@@ -3,25 +3,21 @@ from pymongo import MongoClient
 from AIfunction import generateTags
 from flask_bcrypt import Bcrypt
 import certifi
-from dotenv import load_dotenv
-import os
 
 
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 
-load_dotenv()
 
 # MongoDB connection string
 # Ensure that you replace <username>, <password>, and <dbname> with your actual values
-MONGO_URI = os.getenv("MONGO_URI")
+MONGO_URI = 'mongodb+srv://jadlu150:V4ReGTptWi8mfWHw@charities.lmdjd.mongodb.net/?retryWrites=true&w=majority&appName=Charities'
 
 # Connect to MongoDB
 client = MongoClient(MONGO_URI, tlsCAFile=certifi.where())
 db = client.get_database('Charities')
 charity_collection = db['Charity']
 users_collection = db['Users']
-app.secret_key = "super secret key"
 
 
 # Functions for the website
@@ -29,11 +25,9 @@ def get_accountId_from_email(email):
     user_data = users_collection.find_one({'email': email})
     return user_data.get('accountId') if user_data else None
 
-
 #Routes
 @app.route('/', methods=['POST', 'GET'])
 def index():
-    session.pop('sessionEmail', None)
     return render_template('website.html')
     # charities_data = list(charity_collection.find())  # Fetch all documents from the collection
     # for charity in charities_data:
@@ -94,21 +88,22 @@ def signup():
         }
         try:
             users_collection.insert_one(user)
-            session['sessionEmail'] = email
             return redirect(url_for('search'))
         except:
             return "An error has occurred. Please try again."
-
+        
 
 @app.route('/amountDisplay', methods=['POST', 'GET'])
-def amountDisplay():
-    email = session['sessionEmail'] 
-    user_data = users_collection.find_one({'email': email})
-    _amount = user_data.get('amount')
-    charityName = user_data.get('charity_name')
-    _charity = charity_collection.find_one({'_id': charityName})
+def donationAmount():
+    email = session['sessionEmail']
+    user = users_collection.find_one({"email": email})
 
-    return render_template('amountDisplay.html', donation_amount = _amount , charity_name = _charity)
+    charity = charity_collection.find_one({"Name": user['charity_name']})
+    _charityName = charity['Name']
+
+    return render_template('amountDisplay.html', charity_name = _charityName, donation_amount = user['amount'])
+
+
 
 def getTagsList(prompt):
     tags = generateTags(prompt)
